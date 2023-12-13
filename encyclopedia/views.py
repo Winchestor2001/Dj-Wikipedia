@@ -6,6 +6,7 @@ from encyclopedia.forms import CreatePageForm, EditPageForm
 from .models import Page
 from .utils import get_random_page
 from django.template.defaultfilters import slugify
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class HomePage(TemplateView):
@@ -26,7 +27,7 @@ class AllPages(ListView):
             return Page.objects.all()
 
 
-class CreatePage(CreateView):
+class CreatePage(LoginRequiredMixin, CreateView):
     model = Page
     template_name = "encyclopedia/create_page.html"
     form_class = CreatePageForm
